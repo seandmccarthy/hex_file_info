@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require 'hex_file'
+
+info = HexFile::Info.new(File.open(ARGV.pop, 'r'))
+puts <<EOD
+Format: #{info.format}
+Records: #{info.records.count}
+Binary Size (bytes): #{info.binary_size}
+EOD
