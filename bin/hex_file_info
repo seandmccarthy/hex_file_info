@@ -1,8 +1,29 @@
 #!/usr/bin/env ruby
 
 require 'hex_file'
+require 'optparse'
 
-info = HexFile::Info.new(File.open(ARGV.pop, 'r'))
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{$0}"
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts "Usage: #{$0}"
+    exit
+  end
+end.parse!
+
+opt = ARGV.pop
+if (opt.nil? || opt == '-h' || opt == '--help')
+  puts "Usage: #{$0} <hexfile.hex>"
+  puts
+  exit
+end
+
+unless File.exists?(opt)
+  $stderr.puts "#{opt} not found"
+  exit(1)
+end
+
+info = HexFile::Info.new(File.open(opt, 'r'))
 puts <<EOD
 Format: #{info.format}
 Records: #{info.records.count}
