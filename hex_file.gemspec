@@ -7,9 +7,9 @@ Gem::Specification.new do |spec|
   spec.name          = "hex_file"
   spec.version       = HexFile::VERSION
   spec.authors       = ["Sean McCarthy"]
-  spec.email         = ["sean.mccarthy@fluidintel.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.email         = ["sean@clanmccarthy.net"]
+  spec.summary       = %q{Parses Intel HEX files and gives metadata about the file and records.}
+  spec.description   = %q{Parses Intel HEX files and gives metadata about the file and records.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
