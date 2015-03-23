@@ -37,12 +37,21 @@ Or install it yourself as:
       puts record.type
       puts record.data
       puts record.checksum
-      puts record.ok?
+      puts record.ok? # true if checksum correct
     end
+
+Also there is a bin script that gives a summary
+
+    $ hex_file_info myfile.hex
+    Format: I32HEX
+    Records: 7133
+    Binary Size (bytes): 113918
+
+Note if you're an rbenv user, don't forget to `rbenv rehash` after installing the gem to make the `hex_file_info` script available.
 
 ## Contributing
 
-1. Fork it ( https://github.com/seandmccarthy/hex_file/fork )
+1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
