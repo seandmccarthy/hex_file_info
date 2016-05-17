@@ -26,8 +26,8 @@ module HexFile
     private
 
     def parse(record_ascii)
+      fail HexFile::InvalidRecord, 'Missing start code' unless record_ascii.start_with?(':')
       @raw = record_ascii
-      fail HexFile::InvalidRecord, 'Missing start code' unless @raw.start_with?(':')
       @byte_count = record_ascii[1..2]
       @address = record_ascii[3..6]
       @type = record_ascii[7..8]
@@ -35,12 +35,16 @@ module HexFile
       @checksum = record_ascii[-2..-1]
     end
 
+    def record_content
+      @raw[1...-2]
+    end
+
     def calculate_checksum
-      256 -
-        (@raw[1...-2]
-          .scan(/../)
-          .map { |x| x.to_i(16) }
-          .inject(:+)) & 0xFF
+      256 - (record_content
+              .scan(/../)
+              .map { |x| x.to_i(16) }
+              .reduce(:+)
+            ) & 0xFF
     end
   end
 end
