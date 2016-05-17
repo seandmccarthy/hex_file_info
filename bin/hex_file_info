@@ -3,18 +3,15 @@
 require 'hex_file'
 require 'optparse'
 
+usage = "\nUsage: #{$0} <hexfile.hex>\n\n"
+
 OptionParser.new do |opts|
-  opts.banner = "Usage: #{$0}"
-  opts.on_tail("-h", "--help", "Show this message") do
-    puts "Usage: #{$0}"
-    exit
-  end
+  opts.banner = usage
 end.parse!
 
 opt = ARGV.pop
-if (opt.nil? || opt == '-h' || opt == '--help')
-  puts "Usage: #{$0} <hexfile.hex>"
-  puts
+if opt.nil?
+  puts usage
   exit
 end
 
