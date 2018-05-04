@@ -10,6 +10,15 @@ module HexFile
       @records.each
     end
 
+    def find_record regex
+      regex = Regexp.new(regex, 'i') unless regex.is_a?(Regexp)
+      records.find { |rec| rec.data =~ regex }
+    end
+
+    def to_string
+      records.map(&:raw).join("\n")
+    end
+
     def binary_size
       records.map { |r| r.data_size }.reduce(:+)
     end
@@ -24,15 +33,13 @@ module HexFile
       end
     end
 
-    private
-
     def record_types
       @record_types ||= records.map { |r| r.type }.uniq
     end
 
     def linear_record_types?(record_types)
       record_types.include?(Record::EXTENDED_LINEAR_ADDRESS) ||
-         record_types.include?(Record::START_LINEAR_ADDRESS)
+          record_types.include?(Record::START_LINEAR_ADDRESS)
     end
 
     def start_segment_record_type?(record_types)
