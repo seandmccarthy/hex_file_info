@@ -3,6 +3,10 @@ module HexFile
   end
 
   class Record
+
+    class InvalidLength < InvalidRecord
+    end
+
     DATA = '00'
     END_OF_FILE = '01'
     EXTENDED_SEGMENT_ADDRESS = '02'
@@ -22,18 +26,19 @@ module HexFile
     end
     
     def raw
-      ":#{record_content}#{@checksum}"
+      ":#{content}#{@checksum}"
     end
 
-    def record_content
+    def content
       "#{@byte_count}#{@address}#{@type}#{@data}"
     end
 
     def set_hex_data data
-      raise "Data should be of length #{data_size}!" unless data.length == @data.length
+      raise InvalidLength, "Data should be of length #{data_size}!" unless data.length == @data.length
 
       @data = data
       update_checksum
+      self
     end
 
     def set_data data
@@ -56,8 +61,8 @@ module HexFile
     end
 
 
-    def calculate_checksum record = record_content
-      256 - (record
+    def calculate_checksum record_content = content
+      256 - (record_content
                  .scan(/../)
                  .map { |x| x.to_i(16) }
                  .reduce(:+)

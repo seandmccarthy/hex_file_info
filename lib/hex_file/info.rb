@@ -15,7 +15,7 @@ module HexFile
       records.find { |rec| rec.data =~ regex }
     end
 
-    def to_string
+    def serialize
       records.map(&:raw).join("\n")
     end
 
